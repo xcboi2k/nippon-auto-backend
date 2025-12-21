@@ -1,0 +1,55 @@
+# ==========================
+# Python
+# ==========================
+__pycache__/
+*.py[cod]
+*$py.class
+*.pyo
+*.pyd
+*.pyc
+
+# Virtual environments
+venv/
+env/
+backend/venv/
+backend/env/
+.env
+
+# ==========================
+# Django
+# ==========================
+*.sqlite3
+db.sqlite3
+/staticfiles/
+media/
+*.log
+
+# Migrations (optional to keep if you want)
+*/migrations/*.pyc
+*/migrations/*.py[cod]
+*/migrations/__pycache__/
+
+# ==========================
+# Docker
+# ==========================
+*.env
+docker-compose.override.yml
+**/__pycache__/
+**/.pytest_cache/
+**/logs/
+*.pid
+*.sock
+
+# ==========================
+# IDEs / Editors
+# ==========================
+.vscode/
+.idea/
+*.sublime-workspace
+*.sublime-project
+
+# ==========================
+# OS files
+# ==========================
+.DS_Store
+Thumbs.db
