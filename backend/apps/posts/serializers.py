@@ -1,0 +1,58 @@
+from rest_framework import serializers
+from .models import Post, PostImage
+
+
+class PostImageSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = PostImage
+        fields = ["id", "image"]
+
+
+class PostSerializer(serializers.ModelSerializer):
+    images = PostImageSerializer(many=True, read_only=True)
+    uploaded_images = serializers.ListField(
+        child=serializers.ImageField(),
+        write_only=True,
+        required=False,
+        allow_empty=True,
+        max_length=3,
+    )
+
+    class Meta:
+        model = Post
+        fields = [
+            "id",
+            "content",
+            "images",
+            "uploaded_images",
+            "created_at",
+            "updated_at",
+        ]
+
+    def validate_uploaded_images(self, images):
+        if len(images) > 3:
+            raise serializers.ValidationError("Maximum of 3 images allowed.")
+        return images
+
+    def create(self, validated_data):
+        images = validated_data.pop("uploaded_images", [])
+        post = Post.objects.create(**validated_data)
+
+        for image in images:
+            PostImage.objects.create(post=post, image=image)
+
+        return post
+
+    def update(self, instance, validated_data):
+        images = validated_data.pop("uploaded_images", None)
+
+        instance.content = validated_data.get("content", instance.content)
+        instance.save()
+
+        if images is not None:
+            # Replace images
+            instance.images.all().delete()
+            for image in images:
+                PostImage.objects.create(post=instance, image=image)
+
+        return instance

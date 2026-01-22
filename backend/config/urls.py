@@ -43,5 +43,8 @@ urlpatterns = [
     # APIs
     path("api/", include("apps.users.urls")),
     static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT),
+    
+    path("posts/", include("apps.posts.urls")),
+
 ]
 
