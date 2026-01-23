@@ -36,6 +36,27 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 load_dotenv(BASE_DIR / ".env")
 
+DEBUG = os.getenv("DEBUG") == "1"
+
+SECRET_KEY = os.getenv("SECRET_KEY")
+
+ALLOWED_HOSTS = os.getenv("ALLOWED_HOSTS", "").split(",")
+
+MEDIA_URL = "/media/"
+MEDIA_ROOT = BASE_DIR / "media"
+
+
+AWS_ACCESS_KEY_ID = os.getenv("R2_ACCESS_KEY")
+AWS_SECRET_ACCESS_KEY = os.getenv("R2_SECRET_KEY")
+
+AWS_STORAGE_BUCKET_NAME = os.getenv("R2_BUCKET_NAME")
+AWS_S3_ENDPOINT_URL = f"https://{os.getenv('R2_ACCOUNT_ID')}.r2.cloudflarestorage.com"
+
+AWS_S3_REGION_NAME = "auto"
+AWS_S3_SIGNATURE_VERSION = "s3v4"
+AWS_DEFAULT_ACL = "public-read"
+AWS_QUERYSTRING_AUTH = False
+
 
 # Application definition
 
@@ -124,6 +145,8 @@ DATABASES = {
     }
 }
 
+ADMIN_RESTRICTED = True
+
 
 # Password validation
 # https://docs.djangoproject.com/en/6.0/ref/settings/#auth-password-validators
@@ -160,26 +183,3 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/6.0/howto/static-files/
 
 STATIC_URL = 'static/'
-
-import os
-
-DEBUG = os.getenv("DEBUG") == "1"
-
-SECRET_KEY = os.getenv("SECRET_KEY")
-
-ALLOWED_HOSTS = os.getenv("ALLOWED_HOSTS", "").split(",")
-
-MEDIA_URL = "/media/"
-MEDIA_ROOT = BASE_DIR / "media"
-
-
-AWS_ACCESS_KEY_ID = os.getenv("R2_ACCESS_KEY")
-AWS_SECRET_ACCESS_KEY = os.getenv("R2_SECRET_KEY")
-
-AWS_STORAGE_BUCKET_NAME = os.getenv("R2_BUCKET_NAME")
-AWS_S3_ENDPOINT_URL = f"https://{os.getenv('R2_ACCOUNT_ID')}.r2.cloudflarestorage.com"
-
-AWS_S3_REGION_NAME = "auto"
-AWS_S3_SIGNATURE_VERSION = "s3v4"
-AWS_DEFAULT_ACL = "public-read"
-AWS_QUERYSTRING_AUTH = False
