@@ -4,3 +4,7 @@ djangorestframework-simplejwt
 drf-spectacular
 django-cors-headers
 gunicorn
+django-storages
+boto3
+python-dotenv
+Pillow

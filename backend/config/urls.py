@@ -41,10 +41,14 @@ urlpatterns = [
     path("api/auth/refresh/", TokenRefreshView.as_view(), name="token_refresh"),
 
     # APIs
-    path("api/", include("apps.users.urls")),
-    static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT),
-    
+    path("users/", include("apps.users.urls")),
     path("posts/", include("apps.posts.urls")),
 
 ]
 
+# ONLY for local development
+if settings.DEBUG:
+    urlpatterns += static(
+        settings.MEDIA_URL,
+        document_root=settings.MEDIA_ROOT,
+    )

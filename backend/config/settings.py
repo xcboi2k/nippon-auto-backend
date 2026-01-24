@@ -72,8 +72,9 @@ INSTALLED_APPS = [
     "drf_spectacular.contrib.rest_framework_simplejwt",
     "corsheaders",
     "storages",
-    "apps.users.apps.UsersConfig",
     "apps.core.apps.CoreConfig",
+    "apps.users.apps.UsersConfig",
+    "apps.posts.apps.PostsConfig",
 ]
 
 MIDDLEWARE = [
@@ -146,6 +147,8 @@ DATABASES = {
 }
 
 ADMIN_RESTRICTED = True
+
+DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 
 # Password validation

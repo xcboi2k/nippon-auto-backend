@@ -4,6 +4,7 @@ from .views import (
     
     EmailTokenObtainPairView,
     ProfileView,
+    DeleteProfilePictureView,
     SignupView
 )
 
