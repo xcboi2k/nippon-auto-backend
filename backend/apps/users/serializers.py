@@ -22,12 +22,35 @@ class EmailTokenObtainPairSerializer(TokenObtainPairSerializer):
         return super().validate(attrs)
     
 class SignupSerializer(serializers.Serializer):
-    firstName = serializers.CharField(max_length=150)
-    lastName = serializers.CharField(max_length=150)
-    userName = serializers.CharField(max_length=150)
-    email = serializers.EmailField()
+    firstName = serializers.CharField(error_messages={
+        "blank": "First name is required"
+    })
+
+    lastName = serializers.CharField(error_messages={
+        "blank": "Last name is required"
+    })
+
+    userName = serializers.CharField(error_messages={
+        "blank": "Username is required"
+    })
+
+    email = serializers.EmailField(error_messages={
+        "blank": "Email is required",
+        "invalid": "Enter a valid email address"
+    })
+
     password = serializers.CharField(write_only=True)
     confirmPassword = serializers.CharField(write_only=True)
+
+    def validate_userName(self, value):
+        if User.objects.filter(username=value).exists():
+            raise serializers.ValidationError("Username is already taken")
+        return value
+
+    def validate_email(self, value):
+        if User.objects.filter(email=value).exists():
+            raise serializers.ValidationError("Email is already registered")
+        return value
 
     def validate(self, data):
         if data["password"] != data["confirmPassword"]:
