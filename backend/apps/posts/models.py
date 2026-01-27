@@ -5,20 +5,26 @@ User = settings.AUTH_USER_MODEL
 
 
 class Post(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="posts")
+    user = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE,
+        related_name="posts"
+    )
     content = models.TextField()
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        return f"Post {self.id} by {self.author}"
+        return f"{self.user} - {self.content[:30]}"
+
 
 class PostImage(models.Model):
     post = models.ForeignKey(
-        Post, on_delete=models.CASCADE, related_name="images"
+        Post,
+        related_name="images",
+        on_delete=models.CASCADE
     )
     image = models.ImageField(upload_to="posts/")
-    created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
         return f"Image for post {self.post.id}"

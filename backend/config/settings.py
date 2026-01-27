@@ -125,7 +125,7 @@ REST_FRAMEWORK = {
 }
 
 SIMPLE_JWT = {
-    "ACCESS_TOKEN_LIFETIME": timedelta(minutes=15),
+    "ACCESS_TOKEN_LIFETIME": timedelta(hours=6),  # dev only
     "REFRESH_TOKEN_LIFETIME": timedelta(days=7),
     "AUTH_HEADER_TYPES": ("Bearer",),
 }
@@ -134,6 +134,9 @@ SPECTACULAR_SETTINGS = {
     "TITLE": "NipponAuto API",
     "DESCRIPTION": "Backend API documentation",
     "VERSION": "1.0.0",
+    'SERVE_INCLUDE_SCHEMA': False,
+    'SECURITY': [{'BearerAuth': []}],
+    'COMPONENT_SPLIT_REQUEST': True,
 }
 
 CORS_ALLOW_ALL_ORIGINS = True

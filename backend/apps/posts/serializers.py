@@ -36,10 +36,17 @@ class PostSerializer(serializers.ModelSerializer):
 
     def create(self, validated_data):
         images = validated_data.pop("uploaded_images", [])
+
+        if len(images) > 3:
+            raise serializers.ValidationError("Max 3 images allowed.")
+
         post = Post.objects.create(**validated_data)
 
-        for image in images:
-            PostImage.objects.create(post=post, image=image)
+        for img in images:
+            PostImage.objects.create(
+                post=post,
+                image=img
+            )
 
         return post
 
@@ -50,9 +57,17 @@ class PostSerializer(serializers.ModelSerializer):
         instance.save()
 
         if images is not None:
-            # Replace images
+
+            if len(images) > 3:
+                raise serializers.ValidationError("Max 3 images allowed.")
+
             instance.images.all().delete()
+
             for image in images:
-                PostImage.objects.create(post=instance, image=image)
+                PostImage.objects.create(
+                    post=instance,
+                    image=image
+                )
 
         return instance
+
