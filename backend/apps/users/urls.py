@@ -10,10 +10,10 @@ from .views import (
 )
 
 urlpatterns = [
-    path("health/", HealthCheckView.as_view(), name="health-check"),
-    path("users/me/", ProfileView.as_view(), name="user-profile"),
-    path("users/me/profile-picture/upload/", UploadProfilePictureView.as_view()),
-    path("users/me/profile-picture/delete/", DeleteProfilePictureView.as_view()),
-    path("auth/login/", EmailTokenObtainPairView.as_view(), name="token_login"),
-    path("auth/signup/", SignupView.as_view(), name="signup"),
+    # path("health/", HealthCheckView.as_view(), name="health-check"),
+    path("profile/", ProfileView.as_view(), name="user-profile"),
+    path("profile-picture/upload/", UploadProfilePictureView.as_view()),
+    path("profile-picture/delete/", DeleteProfilePictureView.as_view()),
+    # path("auth/login/", EmailTokenObtainPairView.as_view(), name="token_login"),
+    # path("auth/signup/", SignupView.as_view(), name="signup"),
 ]
