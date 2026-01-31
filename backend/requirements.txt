@@ -10,3 +10,5 @@ python-dotenv
 Pillow
 cloudinary
 django-cloudinary-storage
+django-cities-light
+django-countries

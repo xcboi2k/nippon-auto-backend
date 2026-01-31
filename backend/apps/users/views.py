@@ -141,6 +141,39 @@ class SignupView(APIView):
             status=status.HTTP_201_CREATED
         )
 
+# ---------------------------
+# Upload Profile Picture (Cloudinary)
+# ---------------------------
+
+class UploadProfilePictureView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request):
+        file = request.FILES.get("image")
+
+        if not file:
+            return Response(
+                {"error": "No image provided"},
+                status=400
+            )
+
+        from cloudinary.uploader import upload
+
+        result = upload(
+            file,
+            folder="profiles",
+            transformation=[
+                {"width": 300, "height": 300, "crop": "fill"}
+            ]
+        )
+
+        profile = request.user.profile
+        profile.profilePicture = result["secure_url"]
+        profile.save()
+
+        return Response({
+            "url": result["secure_url"]
+        })
 
 # ---------------------------
 # Delete Profile Picture
@@ -169,54 +202,3 @@ class DeleteProfilePictureView(APIView):
             status=status.HTTP_204_NO_CONTENT,
         )
 
-
-# ---------------------------
-# Upload Profile Picture (R2)
-# ---------------------------
-
-class ProfileImageUploadURLView(APIView):
-    permission_classes = [IsAuthenticated]
-
-    def post(self, request):
-
-        user_id = request.user.id
-        content_type = request.data.get("contentType")
-
-        logger.info(f"Avatar upload requested by user {user_id}")
-
-        if not content_type:
-            logger.error(f"Missing contentType from user {user_id}")
-
-            return Response(
-                {"error": "contentType is required"},
-                status=status.HTTP_400_BAD_REQUEST,
-            )
-
-        file_name = f"profiles/user_{user_id}/avatar.jpg"
-
-        try:
-            url = generate_presigned_url(file_name, content_type)
-
-            public_url = (
-                f"{settings.AWS_S3_ENDPOINT_URL}/"
-                f"{settings.AWS_STORAGE_BUCKET_NAME}/"
-                f"{file_name}"
-            )
-
-            logger.info(f"Generated upload URL for user {user_id}")
-
-            return Response(
-                {
-                    "uploadUrl": url,
-                    "publicUrl": public_url,
-                }
-            )
-
-        except Exception as e:
-
-            logger.exception(f"Failed to generate R2 upload URL: {e}")
-
-            return Response(
-                {"error": "Failed to generate upload URL"},
-                status=status.HTTP_500_INTERNAL_SERVER_ERROR,
-            )
