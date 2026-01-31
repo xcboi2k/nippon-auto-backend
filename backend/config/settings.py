@@ -47,19 +47,6 @@ ALLOWED_HOSTS = ["*"]
 MEDIA_URL = "/media/"
 MEDIA_ROOT = BASE_DIR / "media"
 
-
-AWS_ACCESS_KEY_ID = os.getenv("R2_ACCESS_KEY")
-AWS_SECRET_ACCESS_KEY = os.getenv("R2_SECRET_KEY")
-
-AWS_STORAGE_BUCKET_NAME = os.getenv("R2_BUCKET_NAME")
-AWS_S3_ENDPOINT_URL = f"https://{os.getenv('R2_ACCOUNT_ID')}.r2.cloudflarestorage.com"
-
-AWS_S3_REGION_NAME = "auto"
-AWS_S3_SIGNATURE_VERSION = "s3v4"
-AWS_DEFAULT_ACL = "public-read"
-AWS_QUERYSTRING_AUTH = False
-
-
 # Application definition
 
 INSTALLED_APPS = [
@@ -74,6 +61,8 @@ INSTALLED_APPS = [
     "drf_spectacular.contrib.rest_framework_simplejwt",
     "corsheaders",
     "storages",
+    "cloudinary",
+    "cloudinary_storage",
     "apps.core.apps.CoreConfig",
     "apps.users.apps.UsersConfig",
     "apps.posts.apps.PostsConfig",
@@ -192,6 +181,15 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/6.0/howto/static-files/
 
 STATIC_URL = 'static/'
+
+# Cloudinary Storage
+CLOUDINARY_STORAGE = {
+    "CLOUD_NAME": os.getenv("CLOUDINARY_CLOUD_NAME"),
+    "API_KEY": os.getenv("CLOUDINARY_API_KEY"),
+    "API_SECRET": os.getenv("CLOUDINARY_API_SECRET"),
+}
+
+DEFAULT_FILE_STORAGE = "cloudinary_storage.storage.MediaCloudinaryStorage"
 
 # Logging
 LOGGING = {

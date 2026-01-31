@@ -32,6 +32,14 @@ class PostSerializer(serializers.ModelSerializer):
     def validate_uploaded_images(self, images):
         if len(images) > 3:
             raise serializers.ValidationError("Maximum of 3 images allowed.")
+        
+        for img in images:
+            if img.size > 3 * 1024 * 1024:
+                raise serializers.ValidationError("Max 3MB per image.")
+
+            if img.content_type not in ["image/jpeg", "image/png", "image/webp"]:
+                raise serializers.ValidationError("Only JPG, PNG, WEBP allowed.")
+        
         return images
 
     def create(self, validated_data):

@@ -1,6 +1,8 @@
 from django.db import models
 from django.conf import settings
 
+from cloudinary.models import CloudinaryField
+
 User = settings.AUTH_USER_MODEL
 
 
@@ -24,7 +26,13 @@ class PostImage(models.Model):
         related_name="images",
         on_delete=models.CASCADE
     )
-    image = models.ImageField(upload_to="posts/")
+    # image = models.ImageField(upload_to="posts/")
+    image = CloudinaryField(
+        "post_image",
+        folder="posts",
+        blank=True,
+        null=True
+    )
 
     def __str__(self):
         return f"Image for post {self.post.id}"
