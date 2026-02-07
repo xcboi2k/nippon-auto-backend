@@ -41,6 +41,13 @@ class SignupSerializer(serializers.Serializer):
 
     password = serializers.CharField(write_only=True)
     confirmPassword = serializers.CharField(write_only=True)
+    
+    # Profile fields
+    shopName = serializers.CharField(required=True, allow_blank=False)
+    location = serializers.CharField(required=True, allow_blank=False)
+    mobileNumber = serializers.CharField(required=True, allow_blank=False)
+    bio = serializers.CharField(required=True, allow_blank=False)
+    profilePicture = serializers.URLField(required=False, allow_null=True)
 
     def validate_userName(self, value):
         if User.objects.filter(username=value).exists():
@@ -74,6 +81,13 @@ class SignupSerializer(serializers.Serializer):
             lastName=validated_data["lastName"],
             username=validated_data["userName"],
             email=validated_data["email"],
+            
+            # Extra fields
+            shopName=validated_data.get("shopName", ""),
+            location=validated_data.get("location", ""),
+            mobileNumber=validated_data.get("mobileNumber", ""),
+            bio=validated_data.get("bio", ""),
+            profilePicture=validated_data.get("profilePicture"),
         )
 
         return user
@@ -112,8 +126,6 @@ class ProfileSerializer(serializers.ModelSerializer):
             )
 
         return image
-    
-
 
 class UploadURLSerializer(serializers.Serializer):
     fileName = serializers.CharField()

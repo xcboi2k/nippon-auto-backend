@@ -14,7 +14,6 @@ from rest_framework.generics import RetrieveUpdateAPIView
 from rest_framework.parsers import MultiPartParser, FormParser
 
 from .serializers import EmailTokenObtainPairSerializer, SignupSerializer
-from .r2 import generate_presigned_url
 
 
 logger = logging.getLogger(__name__)
