@@ -1,19 +1,16 @@
 from django.urls import path
-from .views import *
-
+from .views import CountryListView, RegionListView, CityListView
 
 urlpatterns = [
-
-    path("countries/", CountryListAPIView.as_view()),
+    path("countries/", CountryListView.as_view()),
 
     path(
         "countries/<int:country_id>/regions/",
-        RegionListAPIView.as_view()
+        RegionListView.as_view()
     ),
 
     path(
         "regions/<int:region_id>/cities/",
-        CityListAPIView.as_view()
+        CityListView.as_view()
     ),
-    path("phone-codes/", CountryPhoneCodeView.as_view()),
 ]

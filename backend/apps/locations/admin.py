@@ -1,33 +1,22 @@
 from django.contrib import admin
-from .models import MyCountry, MyRegion, MyCity
+from .models import Country, Region, City
 
-@admin.register(MyCountry)
+
+@admin.register(Country)
 class CountryAdmin(admin.ModelAdmin):
-    list_display = ('name', 'iso2_code', 'iso3_code')  # use helper methods
-    search_fields = ('name',)
-    ordering = ('name',)
-
-    # Methods to display ISO codes
-    def iso2_code(self, obj):
-        return getattr(obj, 'iso2', '')  # safe access
-    iso2_code.short_description = "ISO2"
-
-    def iso3_code(self, obj):
-        return getattr(obj, 'iso3', '')  # safe access
-    iso3_code.short_description = "ISO3"
+    list_display = ("id", "name", "code", "phone_code")
+    search_fields = ("name", "code")
 
 
-@admin.register(MyRegion)
+@admin.register(Region)
 class RegionAdmin(admin.ModelAdmin):
-    list_display = ('name', 'country', 'slug')
-    search_fields = ('name', 'slug', 'country__name')
-    list_filter = ('country',)
-    ordering = ('country', 'name')
+    list_display = ("id", "name", "country")
+    list_filter = ("country",)
+    search_fields = ("name",)
 
 
-@admin.register(MyCity)
+@admin.register(City)
 class CityAdmin(admin.ModelAdmin):
-    list_display = ('name', 'region', 'country', 'slug')
-    search_fields = ('name', 'slug', 'region__name', 'country__name')
-    list_filter = ('country', 'region')
-    ordering = ('country', 'region', 'name')
+    list_display = ("id", "name", "region")
+    list_filter = ("region__country", "region")
+    search_fields = ("name",)
