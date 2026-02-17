@@ -63,10 +63,15 @@ INSTALLED_APPS = [
     "storages",
     "cloudinary",
     "cloudinary_storage",
-    "apps.locations.apps.LocationsConfig",
+    "django_filters",
+    
     "apps.core.apps.CoreConfig",
     "apps.users.apps.UsersConfig",
     "apps.posts.apps.PostsConfig",
+    "apps.listings.apps.ListingsConfig",
+    "apps.ratings.apps.RatingsConfig",
+    "apps.locations.apps.LocationsConfig",
+    "apps.vehicles.apps.VehiclesConfig",
 ]
 
 MIDDLEWARE = [
@@ -111,6 +116,9 @@ REST_FRAMEWORK = {
     "DEFAULT_PERMISSION_CLASSES": (
         "rest_framework.permissions.IsAuthenticated",
     ),
+    "DEFAULT_FILTER_BACKENDS": [
+        "django_filters.rest_framework.DjangoFilterBackend",
+    ],
     "EXCEPTION_HANDLER": "apps.core.exceptions.custom_exception_handler",
 }
 

@@ -22,6 +22,14 @@ class Profile(models.Model):
     mobileNumber = models.CharField(max_length=20, blank=True)
     bio = models.TextField(blank=True)
     profilePicture = models.URLField(blank=True, null=True)
+    
+    average_rating = models.DecimalField(
+        max_digits=3,
+        decimal_places=2,
+        default=0
+    )
+
+    total_ratings = models.PositiveIntegerField(default=0)
 
     def __str__(self):
         return self.username
